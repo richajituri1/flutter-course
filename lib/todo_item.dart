@@ -1,34 +1,40 @@
 import 'package:flutter/material.dart';
-
-enum Priority { urgent, normal, low }
+import 'package:todo/index.dart';
 
 class TodoItem extends StatelessWidget {
-  const TodoItem(this.text, this.priority, {super.key});
+  const TodoItem({required this.priority, required this.text, Key? key})
+      : super(key: key);
 
   final String text;
   final Priority priority;
 
   @override
   Widget build(BuildContext context) {
-    var icon = Icons.low_priority;
+    return _buildTodoItem();
+  }
 
-    if (priority == Priority.urgent) {
-      icon = Icons.notifications_active;
-    }
-
-    if (priority == Priority.normal) {
-      icon = Icons.list;
-    }
-
+  Widget _buildTodoItem() {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Row(
         children: [
-          Icon(icon),
+          _buildIcon(),
           const SizedBox(width: 12),
           Text(text),
         ],
       ),
     );
+  }
+
+  Widget _buildIcon() {
+    IconData icon = Icons.low_priority;
+
+    if (priority == Priority.urgent) {
+      icon = Icons.notifications_active;
+    } else if (priority == Priority.normal) {
+      icon = Icons.list;
+    }
+
+    return Icon(icon);
   }
 }

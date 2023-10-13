@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-enum Priority { urgent, normal, low }
+import 'package:todo/index.dart';
 
 class CheckableTodoItem extends StatefulWidget {
-  const CheckableTodoItem(this.text, this.priority, {super.key});
+  const CheckableTodoItem({required this.text,required this.priority,super.key});
 
   final String text;
   final Priority priority;
@@ -21,18 +20,16 @@ class _CheckableTodoItemState extends State<CheckableTodoItem> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildTodoItem() {
     var icon = Icons.low_priority;
 
     if (widget.priority == Priority.urgent) {
       icon = Icons.notifications_active;
     }
 
-    if (widget.priority == Priority.normal) {
+    if (widget.priority == Priority.normal){
       icon = Icons.list;
     }
-
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Row(
@@ -46,5 +43,11 @@ class _CheckableTodoItemState extends State<CheckableTodoItem> {
         ],
       ),
     );
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildTodoItem();
   }
 }

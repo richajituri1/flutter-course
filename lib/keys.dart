@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo/clickable_todo_item.dart';
+import 'package:todo/index.dart';
 
 class Todo {
-  const Todo(this.text, this.priority);
+  const Todo({required this.text,required this.priority});
 
   final String text;
   final Priority priority;
@@ -18,61 +18,55 @@ class Keys extends StatefulWidget {
 }
 
 class _KeysState extends State<Keys> {
-  var _order = 'asc';
-  final _todos = [
-    const Todo(
-      'Learn Flutter',
-      Priority.urgent,
-    ),
-    const Todo(
-      'Practice Flutter',
-      Priority.normal,
-    ),
-    const Todo(
-      'Explore other courses',
-      Priority.low,
-    ),
-  ];
+  var _order = initialOrder;
 
   List<Todo> get _orderedTodos {
-    final sortedTodos = List.of(_todos);
+    final sortedTodos = List.of(Constants.todos);
     sortedTodos.sort((a, b) {
       final bComesAfterA = a.text.compareTo(b.text);
-      return _order == 'asc' ? bComesAfterA : -bComesAfterA;
+      return _order == initialOrder ? bComesAfterA : -bComesAfterA;
     });
     return sortedTodos;
   }
 
   void _changeOrder() {
     setState(() {
-      _order = _order == 'asc' ? 'desc' : 'asc';
+      _order = _order == initialOrder ? lastOrder : initialOrder;
     });
   }
 
+  Widget _buildButton() {
+    return TextButton.icon(
+      onPressed: _changeOrder, 
+      icon: Icon(
+        _order == initialOrder ? Icons.arrow_downward : Icons.arrow_upward,
+        ),
+        label: Text('Sort ${_order == initialOrder ? descendingOrder : ascendingOrder}'),
+        );
+  }
+
+  List<Widget> generateTodoItems(List<Todo> todos) {
+  return todos.map((todo) {
+    return CheckableTodoItem(
+      key: ValueKey(todo.text),
+      text: todo.text,
+      priority: todo.priority,
+    );
+  }).toList();
+}
+
   @override
   Widget build(BuildContext context) {
+    final todoItems = generateTodoItems(_orderedTodos);
     return Column(
       children: [
         Align(
           alignment: Alignment.centerRight,
-          child: TextButton.icon(
-            onPressed: _changeOrder,
-            icon: Icon(
-              _order == 'asc' ? Icons.arrow_downward : Icons.arrow_upward,
-            ),
-            label: Text('Sort ${_order == 'asc' ? 'Descending' : 'Ascending'}'),
-          ),
+          child: _buildButton(),
         ),
         Expanded(
           child: Column(
-            children: [
-              for (final todo in _orderedTodos)
-                CheckableTodoItem(
-                  key: ValueKey(todo.text),
-                  todo.text,
-                  todo.priority,
-                ),
-            ],
+            children: todoItems,
           ),
         ),
       ],
