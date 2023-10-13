@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:todo/index.dart';
 
 class CheckableTodoItem extends StatefulWidget {
+
   const CheckableTodoItem({required this.text,required this.priority,super.key});
+
+
+
 
   final String text;
   final Priority priority;

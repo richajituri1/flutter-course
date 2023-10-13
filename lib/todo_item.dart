@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:todo/index.dart';
 
 class TodoItem extends StatelessWidget {
-  const TodoItem({required this.priority, required this.text, Key? key})
-      : super(key: key);
+
+  const TodoItem({required this.priority,required this.text,super.key});
+
 
   final String text;
   final Priority priority;
 
   @override
   Widget build(BuildContext context) {
+
     return _buildTodoItem();
   }
+
 
   Widget _buildTodoItem() {
     return Padding(
@@ -38,3 +41,6 @@ class TodoItem extends StatelessWidget {
     return Icon(icon);
   }
 }
+
+
+
