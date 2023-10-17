@@ -1,6 +1,6 @@
 {
-    "name": "meals_app",
-    "short_name": "meals_app",
+    "name": "shopping_list",
+    "short_name": "shopping_list",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
